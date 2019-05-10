@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.voc.ControlCenter.TimerTask.mapper.TaskMapper">
+    <resultMap id="BaseResultMap" type="cn.com.voc.ControlCenter.TimerTask.entity.Task">
+        <id column="task_id" jdbcType="VARCHAR" property="taskId" />
+        <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression" />
+        <result column="task_description" jdbcType="VARCHAR" property="taskDescription" />
+        <result column="schedule_path" jdbcType="VARCHAR" property="schedulePath" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <association property="project" column="project_id" select="cn.com.voc.ControlCenter.TimerTask.mapper.ProjectMapper.findByProjectId">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      task_id,task_name,cron_expression,task_description,schedule_path,status,create_time,project_id
+    </sql>
+
+   <select id="findByTaskId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from task_info
+      where task_id = #{taskId}
+    </select>
+
+    <select id="findBySchedulePath" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from task_info
+        where schedule_path = #{schedulePath}
+    </select>
+
+    <delete id="deleteByTaskId" parameterType="java.lang.String">
+      delete from task_info
+      where task_id = #{taskId}
+    </delete>
+
+   <select id="selectAllTasks" resultMap="BaseResultMap" >
+           select * from task_info
+           <where>
+           <if test="projectId != null">
+               project_id = #{projectId}
+           </if>
+           <if test="taskName != null">
+               and task_name like CONCAT('%',#{taskName},'%')
+           </if>
+           <if test="taskDescription!=null">
+              and task_description like CONCAT('%',#{taskDescription},'%')
+           </if>
+           </where>
+       </select>
+
+       <insert id="insert" parameterType="cn.com.voc.ControlCenter.TimerTask.entity.Task">
+         insert into task_info
+         <trim prefix="(" suffix=")" suffixOverrides=",">
+           <if test="taskId != null">
+             task_id,
+           </if>
+           <if test="taskName != null">
+             task_Name,
+           </if>
+           <if test="cronExpression != null">
+             cron_expression,
+           </if>
+           <if test="taskDescription != null">
+             task_description,
+           </if>
+         <if test="schedulePath != null">
+             schedule_path,
+         </if>
+         <if test="status != null">
+             status,
+         </if>
+         <if test="createTime != null">
+             create_time,
+         </if>
+         <if test="projectId != null">
+             project_id,
+         </if>
+         </trim>
+         <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="taskId != null">
+             #{taskId},
+           </if>
+           <if test="taskName != null">
+             #{taskName},
+           </if>
+           <if test="cronExpression != null">
+             #{cronExpression},
+           </if>
+           <if test="taskDescription != null">
+             #{taskDescription},
+           </if>
+             <if test="schedulePath != null">
+                 #{schedulePath},
+             </if>
+             <if test="status != null">
+                 #{status},
+             </if>
+             <if test="createTime != null">
+                 #{createTime},
+             </if>
+             <if test="projectId != null">
+                 #{projectId},
+             </if>
+         </trim>
+       </insert>
+
+       <update id="updateByTaskId" parameterType="cn.com.voc.ControlCenter.TimerTask.entity.Task">
+         update task_info
+         <set>
+           <if test="taskName != null">
+             task_name = #{taskName},
+           </if>
+           <if test="cronExpression != null">
+             cron_expression = #{cronExpression},
+           </if>
+           <if test="projectId  != null">
+             project_id = #{projectId},
+           </if>
+           <if test="taskDescription  != null">
+             task_description = #{taskDescription},
+           </if>
+           <if test="schedulePath != null">
+             schedule_path= #{schedulePath},
+           </if>
+             <if test="status != null and status != ''">
+                 status= #{status},
+             </if>
+         </set>
+         where task_id = #{taskId}
+       </update>
+</mapper>

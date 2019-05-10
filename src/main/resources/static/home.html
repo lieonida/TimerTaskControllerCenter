@@ -1,0 +1,274 @@
+<!Doctype html>
+<html>
+    <head>
+  	<title>任务调度中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="./css/index.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <button style="display: none;" id="insertProject" data-toggle="modal" data-target="#projectModal"></button>
+  	<nav class="navbar navbar-default center-block ">
+      <div class="container-fluid" id="nvabar" style="background-color: #009ACD;border:none;color:#fff;font-weight: 15;font-size: 28px;padding:10px;margin: 0;">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header  >
+          <a class="navbar-brand" href="#">任务调度中心</a>
+        </div>
+      </div>
+    </nav>
+    <div style="padding:0;margin: 0;background:#F0FFFF;display: block;margin-top:-20px;border-bottom: 2px solid #C1CDCD;" class="row">
+     <div style="padding-left:20px;padding-top: 20px;">
+      <form class="bs-example bs-example-form" role="form" >
+          <div class="row">
+              <div class="col-lg-3">
+                  <div class="input-group">
+                      <div class="input-group-btn">
+                          <button type="button" class="btn btn-default" tabindex="-1">项目名称</button>
+                          <button type="button" class="btn btn-default 
+                          dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                              <span class="caret"></span>
+                              <span class="sr-only">切换下拉菜单</span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-righ">
+                          </ul>
+                      </div><!-- /btn-group -->
+                      <input type="text" class="form-control"  id="projectInput" readonly="true" >
+                  </div><!-- /input-group -->
+              </div><!-- /.col-lg-6 -->
+              <div class="col-lg-2">
+                 <input type="text" class="form-control" placeholder="请输入任务名称" id="search-name">
+              </div>
+              <div class="col-lg-2">
+              </div>
+              <div class="col-lg-2">
+                 <input type="text" class="form-control" placeholder="请输入任务描述" id="search-deswcription">
+              </div>
+              <button type="button" class="btn btn-default" id="addProject" data-toggle="modal" data-target="#projectModal">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 项目
+              </button>
+        </div>
+      </form>
+     </div>
+    <div style="padding:0;padding-left: 20px;margin: 0px;">
+    <div class="col-lg-3" style="padding: 0;margin: 0;padding-right: 22px;">
+      <button type="button" class="btn btn-info col-lg-5" id="searchButton">搜索</button>
+      <div class="col-lg-2" style="padding: 0;margin:0;"></div>
+      <button type="button" class="btn btn-success col-lg-5" data-toggle="modal" data-target="#myModal">+新增任务</button>
+    </div>
+    </div>
+   </div>
+  <p style="font-size:20px;font-weight：15;padding:10px;">调度列表</p>
+  <div style="padding:10px;text-align: center;">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td><Strong>任务名称</Strong></td>
+          <td><Strong>Cron表达式</Strong></td>
+          <td><Strong>任务描述</Strong></td>
+          <td><Strong>调度路径</Strong></td>
+          <td><Strong>启动状态</Strong></td>
+          <td><Strong>创建时间<Strong></td>
+          <td><Strong>启动/暂停</Strong></td>
+          <td><Strong>操作</Strong></td>
+        </tr>
+      </thead>
+      <tbody class="table_node">
+        <tr></tr>
+      </tbody>
+    </table>
+    <div id="pageInfo" style="text-align: right;font-size: 10px;"></div>
+</div>
+<div class="row">
+    <nav aria-label="Page navigation center-block" style="margin:0 auto;text-align: center;" id="#pagination">
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  <div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width:40%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增任务</h4>
+      </div>
+      <div class="modal-body" style="margin-right: 20px;text-align: center;">
+        <form class="form-inline">
+          <div class="form-group has-success" style="margin-left: 20px;">
+            <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;">项目名称   <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+           </label>
+            <input type="text" class="form-control" id="projectName" style="margin-left: 20px;" readonly="true">
+          </div>
+          <div class="form-group has-success" style="margin-left: 20px;">
+            <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">描述
+                <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+            </label>
+            <input type="email" class="form-control" id="taskDescription" placeholder='请输入"描述"'style="margin-left: 20px;">
+          </div>
+          <div class="form-group  has-success" style="margin-left: 20px;">
+            <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;">任务名称   <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+           </label>
+            <input type="text" class="form-control" id="taskName" placeholder='请输入"任务名称"' style="margin-left: 20px;" >
+          </div>
+          <div class="form-group has-success" style="margin-left: 20px;">
+            <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">Cron
+                <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+            </label>
+            <input type="email" class="form-control" id="cron" placeholder='请输入"Cron"' style="margin-left: 20px;" >
+          </div>
+           <div class="form-group has-success" style="margin-left: 25px;">
+            <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;">&nbsp;URL<p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+           </label>
+            <input type="text" class="form-control" id="url" placeholder='请输入"URL"' style="margin-left: 20px;" >
+          </div>
+          <div class="form-group" style="margin-left: 20px;visibility: hidden;">
+            <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">U
+                <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+            </label>
+            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" style="margin-left: 20px;">
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveTask">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+    <div class="modal fade" id="myModalUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="width:40%;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">更新任务</h4>
+          </div>
+          <div class="modal-body" style="margin-right: 20px;text-align: center;">
+            <form class="form-inline">
+              <div class="form-group" style="margin-left: 20px;">
+                <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">描述
+                    <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+                </label>
+                <input type="email" class="form-control" id="taskDescriptionUpdate" placeholder='请输入"描述"'style="margin-left: 20px;">
+              </div>
+              <div class="form-group" style="margin-left: 20px;">
+                <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;">任务名称   <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+               </label>
+                <input type="text" class="form-control" id="taskNameUpdate" placeholder='请输入"任务名称"' style="margin-left: 20px;">
+              </div>
+              <div class="form-group" style="margin-left: 20px;">
+                <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">Cron
+                    <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+                </label>
+                <input type="email" class="form-control" id="cronUpdate" placeholder='请输入"Cron"' style="margin-left: 20px;">
+              </div>
+               <div class="form-group" style="margin-left: 20px;">
+                <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;margin-left:20px;">&nbsp;&nbsp;URL<p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+               </label>
+                <input type="text" class="form-control" id="urlUpdate" placeholder='请输入"URL"' style="margin-left: 20px;">
+              </div>
+              <div class="form-group" style="margin-left: 20px;visibility: hidden;">
+                <label for="exampleInputEmail2" style="text-align: center;vertical-align: center;font-size: 14px;">U
+                    <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+                </label>
+                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" style="margin-left: 20px;">
+                <inpute id="task_Id" style="display: none"/>
+              </div>
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="updateTask">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="LogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="width:98%;font-size: 8px;">
+        <div class="modal-content">
+          <div class="modal-body" style="margin-right: 20px;text-align: center;">
+             <div style="padding:10px;text-align: center;">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <td><Strong>项目ID</Strong></td>
+                    <td><Strong>调度状态</Strong></td>
+                    <td><Strong>日志描述</Strong></td>
+                    <td><Strong>创建时间</Strong></td>
+                  </tr>
+                </thead>
+                <tbody class="log_node">
+                  <tr></tr>
+                </tbody>
+              </table>
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" >返回</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="vertical-align:middle; ">
+      <div class="modal-dialog" role="document" style="width:20%;margin-top: 280px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-danger" id="myModalLabel">删除任务</h4>
+          </div>
+          <div class="modal-body" style="margin-right: 20px;text-align: center;margin:0 auto;">
+            <div><h5 style="font-size: 18px;vertical-align: center;">确定要删除该任务吗？</h3></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="deleteTask">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:40%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增项目信息 <p class="text-danger" style="text-align: left;display: inline-block;font-size: 10px;" id="projectInfo">（没有获取到任何的项目信息，请先添加项目信息）</p></h4>
+                </div>
+                <div class="modal-body" style="margin-right: 20px;text-align: center;">
+                    <form class="form-inline">
+                        <div class="form-group has-success" style="margin-left: 20px;">
+                            <label for="exampleInputName2" style="text-align: center;vertical-align: center;font-size: 14px;">项目名称   <p class="text-danger" style="display:inline-block;line-height: 34px;font-size: 14px;padding:0;text-align:middle;float: none;margin-top:5px;">*</p>
+                            </label>
+                            <input type="text" class="form-control" id="projectNameInsert" style="margin-left: 20px;" >
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveProject">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<div>
+      <script src="./jquery/jquery-3.3.1.min.js"></script>
+      <script src="./bootstrap/js/bootstrap.min.js"></script>
+      <script src="./js/home.js"></script>
+  </body>
+</html>

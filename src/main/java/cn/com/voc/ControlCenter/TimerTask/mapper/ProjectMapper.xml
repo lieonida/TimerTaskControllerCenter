@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="cn.com.voc.ControlCenter.TimerTask.mapper.ProjectMapper">
+       <resultMap id="BaseResultMap" type="cn.com.voc.ControlCenter.TimerTask.entity.Project">
+           <id column="project_id" jdbcType="VARCHAR" property="projectId" />
+           <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+       </resultMap>
+
+       <sql id="Base_Column_List">
+         project_id,project_name
+       </sql>
+
+      <select id="findByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+         select
+         <include refid="Base_Column_List" />
+         from project_info
+         where project_id = #{projectId}
+       </select>
+
+       <select id="select" resultMap="BaseResultMap">
+           select * from project_info
+       </select>
+
+       <insert id="insert" parameterType="cn.com.voc.ControlCenter.TimerTask.entity.Project">
+         insert into project_info (project_id,project_name)
+         values (#{projectId}, #{projectName})
+       </insert>
+
+  </mapper>
